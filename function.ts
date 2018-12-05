@@ -57,3 +57,34 @@ function buildName(firstName: string, lastName: string = 'cat') {
 let tomcat = buildName('Tom', 'cat');
 let _tom = buildName('Tom');
 
+//剩余参数
+function push(array: any[], ...items: any[]) {
+    items.forEach(function (item) {
+        array.push(item);
+    });
+}
+
+let a = [];
+push(a, 1, 2, 3);
+
+//重载
+// function reverse(x: number | string): number | string {
+//     if (typeof x === 'number') {
+//         return Number(x.toString().split('').reverse().join(''));
+//     } else if (typeof x === 'string') {
+//         return x.split('').reverse().join('');
+//     }
+// }
+
+function reverse(x: number): number;
+function reverse(x: string): string;
+function reverse(x: number | string): number | string {
+    if (typeof x === 'number') {
+        return Number(x.toString().split('').reverse().join(''));
+    } else if (typeof x === 'string') {
+        return x.split('').reverse().join('');
+    }
+}
+// 上例中，我们重复定义了多次函数 reverse，
+// 前几次都是函数定义，最后一次是函数实现。
+// 在编辑器的代码提示中，可以正确的看到前两个提示。
