@@ -38,6 +38,12 @@
 // 手动赋值的枚举项也可以为小数或负数，此时后续未手动赋值的项的递增步长仍为 1
 
 /**
+ * 手动赋值的枚举项可以不是数字，此时需要使用类型断言来让TSC无视类型检查
+ */
+// enum Days { Sun = 7, Mon, Tue, Wed, Thu, Fri, Sat = <any>"S" };
+
+
+/**
  * 枚举项有两种类型：常数项（constant member）和计算所得项（computed member）
  */
 
@@ -58,3 +64,15 @@
 
 // let directions = [Directions.Up, Directions.Down, Directions.Left, Directions.Right];
 //常数枚举与普通枚举的区别是，它会在编译阶段被删除，并且不能包含计算成员。
+
+//外部枚举
+//外部枚举（Ambient Enums）是使用 declare enum 定义的枚举类型
+declare const enum Directions {
+    Up,
+    Down,
+    Left,
+    Right
+}
+
+let directions = [Directions.Up, Directions.Down, Directions.Left, Directions.Right];
+console.log(directions);
