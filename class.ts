@@ -31,3 +31,18 @@
 // console.log(a.name); //name 定义更改为 private 后报错[ts] 属性“name”为私有属性，只能在类“Animal”中访问。 [2341]
 // a.name = 'Tom';
 // console.log(a.name); //name 定义更改为 private 后报错[ts] 属性“name”为私有属性，只能在类“Animal”中访问。 [2341]
+
+class Animal {
+    protected name;
+    public constructor(name) {
+        this.name = name;
+    }
+}
+
+class Cat extends Animal {
+    constructor(name) {
+        super(name);
+        console.log(this.name);
+    }
+}
+//用 protected 修饰，则允许在子类中访问.
