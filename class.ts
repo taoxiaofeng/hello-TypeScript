@@ -46,3 +46,172 @@
 //     }
 // }
 //用 protected 修饰，则允许在子类中访问.
+
+// class Greeter {
+//     greeting: string;
+//     constructor(message:string) {
+//         this.greeting = message;
+//     }
+//     greet() {
+//         console.log("Hello, " + this.greeting);
+//         return "Hello, " + this.greeting;
+//     }
+// }
+
+// let greeter = new Greeter('world');
+// console.log(greeter);
+
+// class Animal {
+//     move(distanceInMeters: number = 0) {
+//         console.log(`Animal moved ${distanceInMeters}`);
+//     }
+// }
+
+// class Dog extends Animal {
+//     brak() {
+//         console.log('Woof! Woof!');
+//     }
+// }
+
+// const dog = new Dog();
+// dog.brak();
+// dog.move(10);
+// dog.brak();
+
+// class Animal {
+//     public name: string;
+//     public constructor(theName: string) { this.name = theName; }
+//     public move(distanceInMeters: number = 0) {
+//         console.log(`${this.name} moved ${distanceInMeters}m.`);
+//     }
+// }
+
+// class Snake extends Animal {
+//     constructor(name: string) { super(name); }
+//     move(distanceInMeters = 5) {
+//         console.log("Slithering...");
+//         super.move(distanceInMeters);
+//     }
+// }
+
+// class Horse extends Animal {
+//     constructor(name: string) { super(name); }
+//     move(distanceInMeters = 45) {
+//         console.log("Galloping...");
+//         super.move(distanceInMeters);
+//     }
+// }
+
+// let sam = new Snake("Sammy the Python");
+// let tom: Animal = new Horse("Tommy the Palomino");
+
+// sam.move();
+// tom.move(34);
+
+//类型兼容
+// class Animal {
+//     private name: string;
+//     constructor(theName: string) { this.name = theName; }
+// }
+
+// class Rhino extends Animal {
+//     constructor() { super("Rhino"); }
+// }
+
+// class Employee {
+//     private name: string;
+//     constructor(theName: string) { this.name = theName; }
+// }
+
+// let animal = new Animal("Goat");
+// let rhino = new Rhino();
+// let employee = new Employee("Bob");
+
+// animal = rhino; Animal和 Rhino共享了来自 Animal里的私有成员定义 private name: 
+// animal = employee; //报错 不能将类型“Employee”分配给类型“Animal”。类型具有私有属性“name”的单独声明
+
+// protected
+
+// class Person {
+//     protected name: string;
+//     constructor(name: string) { this.name = name; }
+// }
+
+// class Employee extends Person {
+//     private department: string;
+//     constructor(name: string, department: string) {
+//         super(name);
+//         this.department =department;
+//     }
+
+//     public getElevatorPitch() {
+//         return  `Hello, my name is ${this.name} and I work in ${this.department}.`;
+//     }
+// }
+
+// let howard = new Employee("Howard", "Sales");
+// console.log(howard.getElevatorPitch());
+// console.log(howard.name); //属性“name”受保护，只能在类“Person”及其子类中访问。
+
+// class Person {
+//     protected name: string;
+//     protected constructor(theName: string) { this.name = theName; }
+// }
+
+//Employee 能够继承 Person 
+// class Employee extends Person {
+//     private department: string;
+//     constructor(name: string, department: string) {
+//         super(name);
+//         this.department = department;
+//     }
+
+//     public getElevatorPitch() {
+//         return `Hello, my name is ${this.name} and I work in ${this.department}.`;
+//     }
+// }
+
+// let howard = new Employee("Howard", "Sales");
+// let john = new Person("John"); //类“Person”的构造函数是受保护的，仅可在类声明中访问
+
+// readonly修饰符  readonly关键字将属性设置为只读的
+
+// class Octopus {
+//     readonly name: string;
+//     readonly numberOfLegs: number = 8;
+//     constructor(theName: string) {
+//         this.name = theName;
+//     }
+// }
+// class Octopus {
+//     readonly numberOflegs: number = 8;
+//     constructor(readonly name: string) { }
+// }
+
+// let dad = new Octopus("Man with the 8 strong legs");
+// console.log(dad)
+// dad.name = "aaa";//Cannot assign to 'name' because it is a read-only property.
+
+// 存取器 TypeScript支持通过getters/setters来截取对对象成员的访问
+let passcode = "secret passcode";
+class Employee {
+    private _fullName: string;
+
+    get fullName(): string {
+        return this._fullName;
+    }
+
+    set fullName(newName: string) {
+        if (passcode && passcode == "secret passcode") {
+            this._fullName = newName;
+        } else {
+            console.log("Error: Unauthorized update of employee!");
+        }
+    }
+}
+
+let employee = new Employee();
+employee.fullName = "Bob Smith";
+if (employee.fullName) {
+    console.log(employee.fullName)
+}

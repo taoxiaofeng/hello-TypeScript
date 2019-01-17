@@ -10,19 +10,6 @@
  * 抽象类（Abstract Class）：抽象类是供其他类继承的基类，抽象类不允许被实例化。抽象类中的抽象方法必须在子类中被实现
  * 接口（Interfaces）：不同类之间公有的属性或方法，可以抽象成一个接口。接口可以被类实现（implements）。一个类只能继承自另一个类，但是可以实现多个接口
  */
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = function (d, b) {
-        extendStatics = Object.setPrototypeOf ||
-            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-        return extendStatics(d, b);
-    };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
 /**
  * public private 和 protected
  * TypeScript 可以使用三种访问修饰符（Access Modifiers），分别是 public、private 和 protected。
@@ -41,20 +28,154 @@ var __extends = (this && this.__extends) || (function () {
 // console.log(a.name); //name 定义更改为 private 后报错[ts] 属性“name”为私有属性，只能在类“Animal”中访问。 [2341]
 // a.name = 'Tom';
 // console.log(a.name); //name 定义更改为 private 后报错[ts] 属性“name”为私有属性，只能在类“Animal”中访问。 [2341]
-var Animal = /** @class */ (function () {
-    function Animal(name) {
-        this.name = name;
+// class Animal {
+//     protected name;
+//     public constructor(name) {
+//         this.name = name;
+//     }
+// }
+// class Cat extends Animal {
+//     constructor(name) {
+//         super(name);
+//         console.log(this.name);
+//     }
+// }
+//用 protected 修饰，则允许在子类中访问.
+// class Greeter {
+//     greeting: string;
+//     constructor(message:string) {
+//         this.greeting = message;
+//     }
+//     greet() {
+//         console.log("Hello, " + this.greeting);
+//         return "Hello, " + this.greeting;
+//     }
+// }
+// let greeter = new Greeter('world');
+// console.log(greeter);
+// class Animal {
+//     move(distanceInMeters: number = 0) {
+//         console.log(`Animal moved ${distanceInMeters}`);
+//     }
+// }
+// class Dog extends Animal {
+//     brak() {
+//         console.log('Woof! Woof!');
+//     }
+// }
+// const dog = new Dog();
+// dog.brak();
+// dog.move(10);
+// dog.brak();
+// class Animal {
+//     public name: string;
+//     public constructor(theName: string) { this.name = theName; }
+//     public move(distanceInMeters: number = 0) {
+//         console.log(`${this.name} moved ${distanceInMeters}m.`);
+//     }
+// }
+// class Snake extends Animal {
+//     constructor(name: string) { super(name); }
+//     move(distanceInMeters = 5) {
+//         console.log("Slithering...");
+//         super.move(distanceInMeters);
+//     }
+// }
+// class Horse extends Animal {
+//     constructor(name: string) { super(name); }
+//     move(distanceInMeters = 45) {
+//         console.log("Galloping...");
+//         super.move(distanceInMeters);
+//     }
+// }
+// let sam = new Snake("Sammy the Python");
+// let tom: Animal = new Horse("Tommy the Palomino");
+// sam.move();
+// tom.move(34);
+//类型兼容
+// class Animal {
+//     private name: string;
+//     constructor(theName: string) { this.name = theName; }
+// }
+// class Rhino extends Animal {
+//     constructor() { super("Rhino"); }
+// }
+// class Employee {
+//     private name: string;
+//     constructor(theName: string) { this.name = theName; }
+// }
+// let animal = new Animal("Goat");
+// let rhino = new Rhino();
+// let employee = new Employee("Bob");
+// animal = rhino; Animal和 Rhino共享了来自 Animal里的私有成员定义 private name: 
+// animal = employee; //报错 不能将类型“Employee”分配给类型“Animal”。类型具有私有属性“name”的单独声明
+// protected
+// class Person {
+//     protected name: string;
+//     constructor(name: string) { this.name = name; }
+// }
+// class Employee extends Person {
+//     private department: string;
+//     constructor(name: string, department: string) {
+//         super(name);
+//         this.department =department;
+//     }
+//     public getElevatorPitch() {
+//         return  `Hello, my name is ${this.name} and I work in ${this.department}.`;
+//     }
+// }
+// let howard = new Employee("Howard", "Sales");
+// console.log(howard.getElevatorPitch());
+// console.log(howard.name); //属性“name”受保护，只能在类“Person”及其子类中访问。
+// class Person {
+//     protected name: string;
+//     protected constructor(theName: string) { this.name = theName; }
+// }
+//Employee 能够继承 Person 
+// class Employee extends Person {
+//     private department: string;
+//     constructor(name: string, department: string) {
+//         super(name);
+//         this.department = department;
+//     }
+//     public getElevatorPitch() {
+//         return `Hello, my name is ${this.name} and I work in ${this.department}.`;
+//     }
+// }
+// let howard = new Employee("Howard", "Sales");
+// let john = new Person("John"); //类“Person”的构造函数是受保护的，仅可在类声明中访问
+// readonly修饰符  readonly关键字将属性设置为只读的
+// class Octopus {
+//     readonly name: string;
+//     readonly numberOfLegs: number = 8;
+//     constructor(theName: string) {
+//         this.name = theName;
+//     }
+// }
+// class Octopus {
+//     readonly numberOflegs: number = 8;
+//     constructor(readonly name: string) { }
+// }
+// let dad = new Octopus("Man with the 8 strong legs");
+// console.log(dad)
+// dad.name = "aaa";//Cannot assign to 'name' because it is a read-only property.
+// 存取器 TypeScript支持通过getters/setters来截取对对象成员的访问
+let passcode = "secret passcode";
+class Employee {
+    get fullName() {
+        return this._fullName;
     }
-    return Animal;
-}());
-var Cat = /** @class */ (function (_super) {
-    __extends(Cat, _super);
-    function Cat(name) {
-        var _this = _super.call(this, name) || this;
-        console.log(_this.name);
-        return _this;
+    set fullName(newName) {
+        if (passcode && passcode == "secret passcode") {
+            this._fullName = newName;
+        }
+        else {
+            console.log("Error: Unauthorized update of employee!");
+        }
     }
-    return Cat;
-}(Animal));
-var a = new Animal('Jack');
-console.log(a.name);
+}
+let employee = new Employee();
+employee.fullName = "Bob Smith";
+if (employee.fullName) {
+    console.log(employee.fullName);
+}
