@@ -10,6 +10,19 @@
  * 抽象类（Abstract Class）：抽象类是供其他类继承的基类，抽象类不允许被实例化。抽象类中的抽象方法必须在子类中被实现
  * 接口（Interfaces）：不同类之间公有的属性或方法，可以抽象成一个接口。接口可以被类实现（implements）。一个类只能继承自另一个类，但是可以实现多个接口
  */
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
 /**
  * public private 和 protected
  * TypeScript 可以使用三种访问修饰符（Access Modifiers），分别是 public、private 和 protected。
@@ -160,22 +173,78 @@
 // console.log(dad)
 // dad.name = "aaa";//Cannot assign to 'name' because it is a read-only property.
 // 存取器 TypeScript支持通过getters/setters来截取对对象成员的访问
-let passcode = "secret passcode";
-class Employee {
-    get fullName() {
-        return this._fullName;
+// let passcode = "secret";
+// class Employee {
+//     private _fullName: string;
+//     get fullName(): string {
+//         return this._fullName;
+//     }
+//     set fullName(newName: string) {
+//         if (passcode && passcode == "secret passcode") {
+//             this._fullName = newName;
+//         } else {
+//             console.log("Error: Unauthorized update of employee!");
+//         }
+//     }
+// }
+// let employee = new Employee();
+// employee.fullName = "Bob Smith";
+// if (employee.fullName) {
+//     console.log(employee.fullName)
+// }
+/**
+ * 静态属性
+ * 每个实例想要访问这个属性的时候，都要在 origin前面加上类名
+ */
+// class Grid {
+//     static origin = { x: 0, y: 0 };
+//     calcualteDistanceFromOrigin(point: { x: number; y: number; }) {
+//         let xDist = (point.x - Grid.origin.x);
+//         let yDist = (point.y - Grid.origin.y);
+//         return Math.sqrt(xDist * xDist + yDist * yDist) / this.scale;
+//     }
+//     constructor(public scale: number) { }
+// }
+// let grid1 = new Grid(1.0);
+// let grid2 = new Grid(5.0);
+// console.log(grid1.calcualteDistanceFromOrigin({ x: 10, y: 10 }));
+// console.log(grid2.calcualteDistanceFromOrigin({ x: 10, y: 10 }));
+/**
+ * 抽象类 abstract 抽象类做为其它派生类的基类使用。 它们一般不会直接被实例化。
+ */
+var Animal = /** @class */ (function () {
+    function Animal() {
     }
-    set fullName(newName) {
-        if (passcode && passcode == "secret passcode") {
-            this._fullName = newName;
-        }
-        else {
-            console.log("Error: Unauthorized update of employee!");
-        }
+    Animal.prototype.move = function () {
+        console.log('roaming the earch...');
+    };
+    return Animal;
+}());
+var Department = /** @class */ (function () {
+    function Department(name) {
+        this.name = name;
     }
-}
-let employee = new Employee();
-employee.fullName = "Bob Smith";
-if (employee.fullName) {
-    console.log(employee.fullName);
-}
+    Department.prototype.printName = function () {
+        console.log('Department name: ' + this.name);
+    };
+    return Department;
+}());
+var AccountingDepartment = /** @class */ (function (_super) {
+    __extends(AccountingDepartment, _super);
+    function AccountingDepartment() {
+        return _super.call(this, 'Accounting and Auditing') || this;
+    }
+    AccountingDepartment.prototype.printMeeting = function () {
+        console.log('The Accounting Department meets each Monday at 10am.');
+    };
+    AccountingDepartment.prototype.generateReports = function () {
+        console.log('Generating accounting reports...');
+    };
+    return AccountingDepartment;
+}(Department));
+var department; //允许创建一个对抽象类型的引用
+// department = new Department();//无法创建抽象类的实例 error 抽象类无法实例化
+department = new AccountingDepartment(); //允许对一个抽象子类进行实例化和赋值
+department.printName();
+department.printMeeting();
+// department.generateReports();// 类型“Department”上不存在属性“generateReports”。
