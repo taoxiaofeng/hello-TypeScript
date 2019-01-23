@@ -5,11 +5,15 @@ function mySum(x: number, y: number): number {
 //函数表达式
 let mySum2 = function (x: number, y: number): number {
     return x + y;
-}
+};
 
 let mySum3: (x: number, y: number) => number = function (x: number, y: number): number {
     return x + y;
-}
+};
+
+let myAdd: (baseValue:number, increment: number) => number = function(x:number, y:number):number {
+    return x + y;
+};
 
 /**
  * 注意不要混淆了 TypeScript 中的 => 和 ES6 中的 =>。
