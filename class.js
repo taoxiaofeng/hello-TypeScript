@@ -10,19 +10,6 @@
  * 抽象类（Abstract Class）：抽象类是供其他类继承的基类，抽象类不允许被实例化。抽象类中的抽象方法必须在子类中被实现
  * 接口（Interfaces）：不同类之间公有的属性或方法，可以抽象成一个接口。接口可以被类实现（implements）。一个类只能继承自另一个类，但是可以实现多个接口
  */
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = function (d, b) {
-        extendStatics = Object.setPrototypeOf ||
-            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-        return extendStatics(d, b);
-    };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
 /**
  * public private 和 protected
  * TypeScript 可以使用三种访问修饰符（Access Modifiers），分别是 public、private 和 protected。
@@ -212,39 +199,66 @@ var __extends = (this && this.__extends) || (function () {
 /**
  * 抽象类 abstract 抽象类做为其它派生类的基类使用。 它们一般不会直接被实例化。
  */
-var Animal = /** @class */ (function () {
-    function Animal() {
-    }
-    Animal.prototype.move = function () {
-        console.log('roaming the earch...');
-    };
-    return Animal;
-}());
-var Department = /** @class */ (function () {
-    function Department(name) {
-        this.name = name;
-    }
-    Department.prototype.printName = function () {
-        console.log('Department name: ' + this.name);
-    };
-    return Department;
-}());
-var AccountingDepartment = /** @class */ (function (_super) {
-    __extends(AccountingDepartment, _super);
-    function AccountingDepartment() {
-        return _super.call(this, 'Accounting and Auditing') || this;
-    }
-    AccountingDepartment.prototype.printMeeting = function () {
-        console.log('The Accounting Department meets each Monday at 10am.');
-    };
-    AccountingDepartment.prototype.generateReports = function () {
-        console.log('Generating accounting reports...');
-    };
-    return AccountingDepartment;
-}(Department));
-var department; //允许创建一个对抽象类型的引用
+// abstract class Animal {
+//     abstract makeSount(): void;
+//     move(): void {
+//         console.log('roaming the earch...');
+//     }
+// }
+// abstract class Department {
+//     constructor(public name: string) { }
+//     printName(): void {
+//         console.log('Department name: ' + this.name);
+//     }
+//     abstract printMeeting():void; //必须在派生类中实现
+// }
+// class AccountingDepartment extends Department {
+//     constructor() {
+//         super('Accounting and Auditing'); //在派生类的构造函数中必须调用 super()
+//     }
+//     printMeeting():void {
+//         console.log('The Accounting Department meets each Monday at 10am.');
+//     }
+//     generateReports():void {
+//         console.log('Generating accounting reports...');
+//     }
+// }
+// let department: Department;//允许创建一个对抽象类型的引用
 // department = new Department();//无法创建抽象类的实例 error 抽象类无法实例化
-department = new AccountingDepartment(); //允许对一个抽象子类进行实例化和赋值
-department.printName();
-department.printMeeting();
+// department = new AccountingDepartment(); //允许对一个抽象子类进行实例化和赋值
+// department.printName();
+// department.printMeeting();
 // department.generateReports();// 类型“Department”上不存在属性“generateReports”。
+//构造函数
+var Greeter = /** @class */ (function () {
+    function Greeter() {
+    }
+    // constructor(message: string) {
+    //     this.greeting = message;
+    // }
+    Greeter.prototype.greet = function () {
+        if (this.greeting) {
+            return "Hello, " + this.greeting;
+        }
+        else {
+            return Greeter.standardGreeting;
+        }
+    };
+    Greeter.standardGreeting = "Hello, there";
+    return Greeter;
+}());
+var greeter1;
+greeter1 = new Greeter();
+console.log(greeter1.greet());
+var greeterMaker = Greeter;
+greeterMaker.standardGreeting = "Hey there";
+var greeter2 = new greeterMaker();
+console.log(greeter2.greet());
+//把类当做接口使用
+var Point = /** @class */ (function () {
+    function Point() {
+    }
+    return Point;
+}());
+var point3d = { x: 1, y: 2, z: 3 };
+console.log(point3d);
