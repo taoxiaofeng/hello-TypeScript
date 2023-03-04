@@ -7,16 +7,20 @@
     “files”  指定被编译的文件列表，只有编译的文件少时用到
     “compilerOptions” 编译器选项，用来完成对编译的配置
     “target”  用来指定ts被编译的es版本
+    “outDir” 用来指定编译后的文件所放的目录
+    “outFile”  将代码合并为一个文件
   */
   "compilerOptions": {
-    "module": "CommonJS",
+    // "module": "CommonJS",
     "target": "ES2016",
-    "sourceMap": false
+    "sourceMap": false,
+    "outDir":  "./dist",
+    "outFile": "./dist/chunk.js"
   },
   "exclude": [
     "node_modules"
   ],
   "include": [
     "./src/**/*", /* src下面的任意目录下面的任意文件 */
-  ]
+  ],
 }
